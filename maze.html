@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Maze Game</title>
+<style>
+body{font-family:Arial;text-align:center}
+#maze{
+display:grid;
+grid-template-columns:repeat(5,60px);
+gap:5px;
+width:320px;
+margin:auto;
+}
+.cell{
+width:60px;
+height:60px;
+border:1px solid black;
+}
+.wall{background:black;}
+.player{background:blue;}
+.goal{background:green;}
+</style>
+</head>
+
+<body>
+
+<h2>Maze Escape Game</h2>
+<p>Use arrow keys to reach the green box</p>
+
+<div id="maze"></div>
+
+<script>
+
+const mazeMap=[
+[0,0,1,0,0],
+[1,0,1,0,1],
+[0,0,0,0,0],
+[0,1,1,1,0],
+[0,0,0,1,2]
+]
+
+let player={x:0,y:0}
+const maze=document.getElementById("maze")
+
+function drawMaze(){
+maze.innerHTML=""
+for(let i=0;i<5;i++){
+for(let j=0;j<5;j++){
+
+const cell=document.createElement("div")
+cell.classList.add("cell")
+
+if(mazeMap[i][j]==1) cell.classList.add("wall")
+if(mazeMap[i][j]==2) cell.classList.add("goal")
+if(player.x==i && player.y==j) cell.classList.add("player")
+
+maze.appendChild(cell)
+
+}
+}
+}
+
+document.addEventListener("keydown",function(e){
+
+let newX=player.x
+let newY=player.y
+
+if(e.key=="ArrowUp") newX--
+if(e.key=="ArrowDown") newX++
+if(e.key=="ArrowLeft") newY--
+if(e.key=="ArrowRight") newY++
+
+if(newX>=0 && newX<5 && newY>=0 && newY<5 && mazeMap[newX][newY]!=1){
+player.x=newX
+player.y=newY
+}
+
+if(mazeMap[player.x][player.y]==2){
+alert("You escaped the maze!")
+}
+
+drawMaze()
+
+})
+
+drawMaze()
+
+</script>
+
+</body>
+</html>
